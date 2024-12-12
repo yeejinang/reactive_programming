@@ -20,12 +20,12 @@ public class ReactiveService {
     public Mono<String> fetchDataReactive() {
         logThread("Reactive Service");
         return webClient.get()
-                .uri("async")
+                .uri("http://localhost:8090/api/helloworld")
                 .retrieve()
                 .bodyToMono(String.class)
-                .timeout(Duration.ofSeconds(15)) // Timeout per request
+                .timeout(Duration.ofSeconds(20)) // Timeout per request
                 .retryWhen(Retry.fixedDelay(3, Duration.ofSeconds(20))) // Retry 3 times
-                .doOnNext(response -> logThread(response))
+                .doOnNext(this::logThread)
                 .doOnError(e -> log.error("Error while calling API for ID {}: {}"));
     }
 

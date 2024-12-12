@@ -1,7 +1,11 @@
 package com.example.reactiveprogramming;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
 import java.util.concurrent.CompletableFuture;
@@ -12,12 +16,13 @@ public class AsyncService {
     @Async
     public CompletableFuture<String> fetchDataAsync() {
         logThread("Async Service");
-        try {
-            Thread.sleep(10000); // Simulating a long-running task
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-        return CompletableFuture.completedFuture("Data from Async Service");
+        RestTemplate rt = new RestTemplate();
+        String uri = "http://localhost:8090/api/helloworld";
+        HttpEntity<String> entity = new HttpEntity<>("parameters", null);
+        ResponseEntity<?> result =
+                rt.exchange(uri, HttpMethod.GET, entity, String.class);
+        logThread((String) result.getBody());
+        return CompletableFuture.completedFuture((String) result.getBody());
     }
 
     private void logThread(String service) {
