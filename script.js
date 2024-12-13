@@ -54,6 +54,8 @@ export const options = {
 // about authoring k6 scripts.
 //
 export default function () {
-  http.get("http://localhost:8042/reactive");
+  //http.get("http://localhost:8042/reactive");
+  http.get("http://localhost:8042/normal");
+  //http.get("http://localhost:8042/async");
   sleep(1);
 }

@@ -12,9 +12,12 @@ public class ApiController {
     private final AsyncService asyncService;
     private final ReactiveService reactiveService;
 
-    public ApiController(AsyncService asyncService, ReactiveService reactiveService) {
+    private final NormalService normalService;
+
+    public ApiController(AsyncService asyncService, ReactiveService reactiveService, NormalService normalService) {
         this.asyncService = asyncService;
         this.reactiveService = reactiveService;
+        this.normalService = normalService;
     }
 
     @GetMapping("/async")
@@ -26,4 +29,7 @@ public class ApiController {
     public Mono<String> getReactiveData() {
         return reactiveService.fetchDataReactive();
     }
+
+    @GetMapping("/normal")
+    public String getNormal() { return normalService.fetchNormal(); }
 }
