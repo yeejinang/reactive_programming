@@ -11,8 +11,9 @@ public class ApiController {
 
     private final AsyncService asyncService;
     private final ReactiveService reactiveService;
-
     private final NormalService normalService;
+
+    private static final MutexCounter mutexCounter = new MutexCounter();
 
     public ApiController(AsyncService asyncService, ReactiveService reactiveService, NormalService normalService) {
         this.asyncService = asyncService;
@@ -21,15 +22,17 @@ public class ApiController {
     }
 
     @GetMapping("/async")
-    public CompletableFuture<String> getAsyncData() {
-        return asyncService.fetchDataAsync();
+    public String getAsyncData() {
+         asyncService.fetchDataAsync(mutexCounter);
+         return "hello";
     }
 
     @GetMapping("/reactive")
-    public Mono<String> getReactiveData() {
-        return reactiveService.fetchDataReactive();
+    public String getReactiveData() {
+         reactiveService.fetchDataReactive(mutexCounter);
+         return "hello";
     }
 
     @GetMapping("/normal")
-    public String getNormal() { return normalService.fetchNormal(); }
+    public String getNormal() { return normalService.fetchNormal(mutexCounter); }
 }

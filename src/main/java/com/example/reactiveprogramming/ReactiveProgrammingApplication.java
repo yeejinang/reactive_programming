@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.GetMapping;
 import reactor.core.publisher.Mono;
 
@@ -11,6 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 @SpringBootApplication
 @RequiredArgsConstructor
+@EnableAsync
 public class ReactiveProgrammingApplication {
 //    private final AsyncService asyncService;
 

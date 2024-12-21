@@ -11,13 +11,14 @@ import java.util.Date;
 @Service
 public class NormalService {
 
-    public String fetchNormal() {
+    public String fetchNormal(MutexCounter counter) {
         RestTemplate rt = new RestTemplate();
         String uri = "http://localhost:8090/api/helloworld";
         HttpEntity<String> entity = new HttpEntity<>("parameters", null);
         ResponseEntity<?> result =
                 rt.exchange(uri, HttpMethod.GET, entity, String.class);
         logThread((String) result.getBody());
+        counter.increment();
         return (String) result.getBody();
     }
 

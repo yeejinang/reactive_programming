@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public class AsyncService {
 
     @Async
-    public CompletableFuture<String> fetchDataAsync() {
+    public CompletableFuture<String> fetchDataAsync(MutexCounter counter) {
         logThread("Async Service");
         RestTemplate rt = new RestTemplate();
         String uri = "http://localhost:8090/api/helloworld";
@@ -22,7 +22,8 @@ public class AsyncService {
         ResponseEntity<?> result =
                 rt.exchange(uri, HttpMethod.GET, entity, String.class);
         logThread((String) result.getBody());
-        return CompletableFuture.completedFuture((String) result.getBody());
+        counter.increment();
+        return CompletableFuture.completedFuture("loll");
     }
 
     private void logThread(String service) {
